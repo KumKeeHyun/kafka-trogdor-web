@@ -1,0 +1,39 @@
+---
+- name: Update trogdor agent systemd service
+  become: true
+  ansible.builtin.template:
+    src: trogdor.service.j2
+    dest: /etc/systemd/system/trogdor-agent.service
+    mode: 0640
+    owner: root
+    group: root
+  vars:
+    trogdor_action: agent
+
+- name: Restart trogdor agent
+  become: true
+  ansible.builtin.systemd:
+    daemon_reload: true
+    name: trogdor-agent
+    state: restarted
+
+- name: Update trogdor coordinator systemd service
+  when: "inventory_hostname == groups['broker'][0]"
+  become: true
+  ansible.builtin.template:
+    src: trogdor.service.j2
+    dest: /etc/systemd/system/trogdor-coordinator.service
+    mode: 0640
+    owner: root
+    group: root
+  vars:
+    trogdor_action: coordinator
+
+- name: Restart trogdor coordinator
+  when: "inventory_hostname == groups['broker'][0]"
+  become: true
+  ansible.builtin.systemd:
+    daemon_reload: true
+    name: trogdor-coordinator
+    state: restarted
+...

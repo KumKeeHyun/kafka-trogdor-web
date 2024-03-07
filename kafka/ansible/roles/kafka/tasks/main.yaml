@@ -1,0 +1,10 @@
+---
+- name: Install kafka
+  include_tasks: install.yaml
+
+- name: Config kafka
+  include_tasks: config.yaml
+
+- name: Restart kafka
+  include_tasks: restart.yaml
+...

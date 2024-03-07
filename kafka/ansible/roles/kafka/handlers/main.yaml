@@ -1,0 +1,4 @@
+---
+- name: restart kafka
+  include_tasks: tasks/restart.yaml
+...

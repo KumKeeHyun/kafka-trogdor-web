@@ -1,0 +1,10 @@
+jmx_exporter_home: "/opt/jmx-exporter"
+jmx_exporter_version: "0.20.0"
+jmx_exporter_jar: "jmx_prometheus_httpserver-{{ jmx_exporter_version }}.jar"
+jmx_exporter_jar_download_url: "https://repo.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_httpserver/{{ jmx_exporter_version }}/{{ jmx_exporter_jar }}"
+jmx_exporter_jar_file: "{{ jmx_exporter_home }}/jmx_prometheus_httpserver-{{ jmx_exporter_version }}.jar"
+jmx_exporter_conf_file: "{{ jmx_exporter_home }}/config.yaml"
+jmx_exporter_port: 12345
+jmx_host: "localhost:9999"
+
+HEAP_OPTS: "-Xms128m -Xmx128m"

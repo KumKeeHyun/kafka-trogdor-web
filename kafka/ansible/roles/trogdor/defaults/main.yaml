@@ -1,0 +1,7 @@
+kafka_home: "/opt/kafka"
+kafka_bin_dirs: "{{ kafka_home }}/bin"
+kafka_config_dirs: "{{ kafka_home }}/config"
+trogdor_conf_file: "{{ kafka_config_dirs }}/trogdor.conf"
+
+trogdor_service_environment_overrides:
+  KAFKA_HEAP_OPTS: "-Xms128m -Xmx128m"

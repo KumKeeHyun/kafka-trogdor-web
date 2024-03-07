@@ -1,0 +1,32 @@
+---
+- name: "Set variables"
+  ansible.builtin.set_fact:
+    voters: "{{ groups['controller'] | map('extract', hostvars) | map(attribute='id') | zip(groups['controller'] | map('extract', hostvars) | map(attribute='ansible_hostname')) | map('join', '@') | product([':9093']) | map('join', '') | join(',') }}"
+
+- name: Set broker config file
+  when: "inventory_hostname in groups['broker']"
+  become: true
+  ansible.builtin.template:
+    src: broker.properties.j2
+    dest: "{{ kafka_config_dirs }}/custom.properties"
+    mode: 0644
+  notify: restart kafka
+
+- name: Set controller config file
+  when: "inventory_hostname in groups['controller']"
+  become: true
+  ansible.builtin.template:
+    src: controller.properties.j2
+    dest: "{{ kafka_config_dirs }}/custom.properties"
+    mode: 0644
+  notify: restart kafka
+
+- name: Check already format storage
+  ansible.builtin.stat:
+    path: "{{ kafka_log_dirs }}/meta.properties"
+  register: meta_file_stat
+
+- name: Format storage
+  ansible.builtin.shell: "{{ kafka_bin_dirs }}/kafka-storage.sh format -t {{ kafka_cluster_id }} -c {{ kafka_config_dirs }}/custom.properties --ignore-formatted"
+  notify: restart kafka
+...

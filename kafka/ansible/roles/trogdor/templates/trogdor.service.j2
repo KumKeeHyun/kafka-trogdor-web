@@ -1,0 +1,16 @@
+[Unit]
+Description=Apache Kafka Trogdor
+Documentation=http://kafka.apache.org/documentation.html
+Requires=network.target
+After=network.target
+
+[Service]
+Type=simple
+ExecStart={{ kafka_bin_dirs }}/trogdor.sh {{ trogdor_action }} -n {{ ansible_hostname }} -c {{ trogdor_conf_file }}
+ExecStop=kill -KILL $(ps -ax | grep 'trogdor.{{ trogdor_action }}' | grep -v grep | awk '{print $1}'| xargs)
+
+{% for key, value in trogdor_service_environment_overrides.items() %}
+{% if value %}
+Environment="{{key}}={{value}}"
+{% endif %}
+{% endfor %}

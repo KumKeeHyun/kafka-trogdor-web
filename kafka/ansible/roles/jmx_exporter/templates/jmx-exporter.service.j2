@@ -1,0 +1,9 @@
+[Unit]
+Description=JMX Exporter
+Requires=network.target
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=java {{ HEAP_OPTS }} -jar {{ jmx_exporter_jar_file }} {{ jmx_exporter_port }} {{ jmx_exporter_conf_file }}
+ExecStop=kill -KILL $(ps -ax | grep '{{ jmx_exporter_jar_file }}' | grep -v grep | awk '{print $1}'| xargs)

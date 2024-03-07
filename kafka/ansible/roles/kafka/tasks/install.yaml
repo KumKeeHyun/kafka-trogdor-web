@@ -1,0 +1,29 @@
+---
+- name: Install JVM
+  become: true
+  ansible.builtin.package:
+    name: openjdk-17-jdk
+    state: present
+    update_cache: true
+
+- name: Download kafka package
+  ansible.builtin.get_url:
+    url: "{{ kafka_download_url }}"
+    dest: "/tmp/{{ kafka_tar_file }}"
+  notify: restart kafka
+
+- name: Extract kafka package
+  become: true
+  ansible.builtin.unarchive:
+    src: "/tmp/{{ kafka_tar_file }}"
+    dest: "/opt/"
+    mode: 0755
+    remote_src: true
+
+- name: Create symbolic link
+  become: true
+  ansible.builtin.file:
+    src: "/opt/{{ kafka_full_version }}"
+    dest: "{{ kafka_home }}"
+    state: link
+...

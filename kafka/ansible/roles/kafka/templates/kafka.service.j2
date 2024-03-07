@@ -1,0 +1,16 @@
+[Unit]
+Description=Apache Kafka
+Documentation=http://kafka.apache.org/documentation.html
+Requires=network.target
+After=network.target
+
+[Service]
+Type=simple
+ExecStart={{ kafka_bin_dirs }}/kafka-server-start.sh {{ kafka_config_dirs }}/custom.properties
+ExecStop={{ kafka_bin_dirs }}/kafka-server-stop.sh
+
+{% for key, value in kafka_service_environment_overrides.items() %}
+{% if value %}
+Environment="{{key}}={{value}}"
+{% endif %}
+{% endfor %}

@@ -1,0 +1,6 @@
+{
+    "class": "org.apache.kafka.trogdor.fault.NetworkPartitionFaultSpec",
+    "startMs": 1000,
+    "durationMs": 30000,
+    "partitions": [["controller01", "controller03"], ["controller02"]]
+}

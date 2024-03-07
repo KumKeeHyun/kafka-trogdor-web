@@ -1,0 +1,44 @@
+[
+    {
+        "name": "controller01",
+        "box": "spox/ubuntu-arm",
+        "cpus": 1,
+        "memory": "1024",
+        "private_network": "192.168.56.2"
+    },
+    {
+        "name": "controller02",
+        "box": "spox/ubuntu-arm",
+        "cpus": 1,
+        "memory": "1024",
+        "private_network": "192.168.56.3"
+    },
+    {
+        "name": "controller03",
+        "box": "spox/ubuntu-arm",
+        "cpus": 1,
+        "memory": "1024",
+        "private_network": "192.168.56.4"
+    },
+    {
+        "name": "kafka01",
+        "box": "spox/ubuntu-arm",
+        "cpus": 1,
+        "memory": "2048",
+        "private_network": "192.168.56.5"
+    },
+    {
+        "name": "kafka02",
+        "box": "spox/ubuntu-arm",
+        "cpus": 1,
+        "memory": "2048",
+        "private_network": "192.168.56.6"
+    },
+    {
+        "name": "kafka03",
+        "box": "spox/ubuntu-arm",
+        "cpus": 1,
+        "memory": "2048",
+        "private_network": "192.168.56.7"
+    }
+]

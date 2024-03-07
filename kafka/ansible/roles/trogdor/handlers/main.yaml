@@ -1,0 +1,4 @@
+---
+- name: restart trogdor
+  include_tasks: tasks/restart.yaml
+...

@@ -1,0 +1,35 @@
+---
+- name: Create jmx exporter home directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ jmx_exporter_home }}"
+    state: directory
+    mode: '0755'
+
+# - name: Download jmx exporter from Maven Central
+#   become: true
+#   community.general.maven_artifact:
+#     group_id: io.prometheus.jmx
+#     artifact_id: jmx_prometheus_httpserver
+#     version: "{{ jmx_exporter_version }}"
+#     dest: "{{ jmx_exporter_jar_file }}"
+
+# host python이 꼬였는지 maven_artifact를 사용할 수 없었음
+# 차선책으로 로컬 파일을 업로드
+- name: Copy jmx exporter jar file
+  become: true
+  copy:
+    src: "./jmx_prometheus_httpserver-0.20.0.jar"
+    dest: "{{ jmx_exporter_jar_file }}"
+
+- name: Set jmx exporter config file
+  become: true
+  ansible.builtin.template:
+    src: config.yaml.j2
+    dest: "{{ jmx_exporter_conf_file }}"
+    mode: 0644
+  notify: restart jmx exporter
+
+- name: restart jmx exporter
+  include_tasks: restart.yaml
+...

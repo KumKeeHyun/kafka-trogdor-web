@@ -1,0 +1,15 @@
+---
+- name: Set trogdor config file
+  become: true
+  ansible.builtin.template:
+    src: trogdor.conf.j2
+    dest: "{{ trogdor_conf_file }}"
+    mode: 0644
+  vars:
+    nodes: "{{ groups['all'] | map('extract', hostvars) | map(attribute='ansible_hostname') }}"
+    coordinator_node: "{{ groups['broker'][0] }}"
+  notify: restart trogdor
+
+- name: Restart trogdor
+  include_tasks: restart.yaml
+...

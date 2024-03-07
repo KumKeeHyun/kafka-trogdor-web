@@ -1,0 +1,36 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Require
+Vagrant.require_version ">= 2.0.0"
+require 'json'
+
+# Load VM Config file
+vms = JSON.parse(File.read(File.join(File.dirname(__FILE__), 'config.json')))
+
+Vagrant.configure("2") do |config|
+  config.vagrant.plugins = ["vagrant-hostmanager"]
+  
+  # Enable ssh agent and Use default key
+  config.ssh.forward_agent = true
+  config.ssh.insert_key = false
+  
+  # Manage /etc/hosts
+  config.hostmanager.enabled = true
+  config.hostmanager.include_offline = true
+  config.hostmanager.manage_guest = true
+  config.hostmanager.manage_host = true
+
+  vms.each do |vm|
+    config.vm.define vm["name"] do |s|
+      s.vm.box = vm["box"]
+      s.vm.hostname = vm["name"]
+      s.vm.network "private_network", ip: vm["private_network"]
+      s.vm.provider "virtualbox" do |vb|
+        vb.gui = false
+        vb.cpus = vm["cpus"]
+        vb.memory = vm["memory"]
+      end
+    end
+  end
+end

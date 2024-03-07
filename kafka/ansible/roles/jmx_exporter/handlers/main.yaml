@@ -1,0 +1,4 @@
+---
+- name: restart jmx exporter
+  include_tasks: tasks/restart.yaml
+...

@@ -1,0 +1,17 @@
+---
+- name: Update systemd service
+  become: true
+  ansible.builtin.template:
+    src: jmx-exporter.service.j2
+    dest: /etc/systemd/system/jmx-exporter.service
+    mode: 0640
+    owner: root
+    group: root
+
+- name: Restart jmx exporter
+  become: true
+  ansible.builtin.systemd:
+    daemon_reload: true
+    name: jmx-exporter
+    state: restarted
+...

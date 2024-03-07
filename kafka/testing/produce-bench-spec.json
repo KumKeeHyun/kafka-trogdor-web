@@ -1,0 +1,20 @@
+{
+    "class": "org.apache.kafka.trogdor.workload.ProduceBenchSpec",
+    "durationMs": 10000000,
+    "producerNode": "kafka02",
+    "bootstrapServers": "kafka01:9092,kafka02:9092,kafka03:9092",
+    "targetMessagesPerSec": 100,
+    "maxMessages": 100,
+    "activeTopics": {
+        "foo[1-3]": {
+            "numPartitions": 2,
+            "replicationFactor": 1
+        }
+    },
+    "keyGenerator": {
+         "type": "sequential",
+         "size": 8,
+         "offset": 1
+    },
+    "useConfiguredPartitioner": true
+}

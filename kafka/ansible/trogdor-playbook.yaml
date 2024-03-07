@@ -1,0 +1,7 @@
+- name: Run trogdor
+  hosts: controller,broker
+  gather_facts: true
+  # serial: 1
+
+  roles:
+    - role: trogdor
